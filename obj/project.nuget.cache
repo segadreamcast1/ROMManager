@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "+YOmkR6Z0lY=",
+  "success": true,
+  "projectFilePath": "D:\\romm\\ROMManager\\ROMManager.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Vinca\\.nuget\\packages\\fsharp.core\\8.0.400\\fsharp.core.8.0.400.nupkg.sha512",
+    "C:\\Users\\Vinca\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
