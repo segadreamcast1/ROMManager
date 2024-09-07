@@ -12,6 +12,7 @@ The ***ROM Mod Manager*** includes many features a modern mod manager has, such 
 - Installing, Uninstalling and Listing mods
 - Searching for mods
 - Setting a mod directory
+- Universal Unity game support
 
 And more to come!
 
