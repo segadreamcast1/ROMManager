@@ -1,5 +1,5 @@
 # ROM Mod Manager
-## The fastest FOSS (free and open-source) mod manager with no ads
+### The fastest FOSS mod manager with no ads
 
 # What is ROM Mod Manager?
 
