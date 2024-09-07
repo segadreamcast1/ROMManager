@@ -3,7 +3,7 @@
 
 # What is ROM Mod Manager?
 
-***ROM Mod Manager*** is a open-source command-line interface (CLI) mod manager with many functions a normal mod manager has, with a [mod list that can be modified here](https://github.com/segadreamcast1/ROMModList)
+***ROM Mod Manager*** is a open-source command-line interface (CLI) mod manager with many functions a normal mod manager has, with a [mod list that can be modified here](https://github.com/segadreamcast1/ROMModList).
 
 # Features
 
