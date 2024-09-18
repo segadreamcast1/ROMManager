@@ -1,4 +1,4 @@
-﻿open System
+open System
 open System.IO
 open System.Net.Http
 open Newtonsoft.Json.Linq
@@ -7,6 +7,12 @@ type Mod = {
     Name: string
     Description: string
     DownloadUrl: string
+    Dependencies: string list
+}
+
+type ModProfile = {
+    Name: string
+    ActiveMods: string list
 }
 
 let fetchModsJsonAsync () = async {
@@ -110,6 +116,52 @@ let searchMods (keyword: string) =
             filteredMods |> List.iter (fun m -> printfn "- %s: %s" m.Name m.Description)
     | None -> printfn "No mods available. Please check the mods JSON file and try again."
 
+let rec visualizeDependencies (modList: Mod list) (modName: string) (indent: int) =
+    match modList |> List.tryFind (fun m -> m.Name = modName) with
+    | Some modInfo ->
+        printfn "%s%s" (String.replicate indent "  ") modInfo.Name
+        modInfo.Dependencies |> List.iter (fun dep -> visualizeDependencies modList dep (indent + 2))
+    | None -> printfn "Mod '%s' not found." modName
+
+let listModDependencies modName =
+    match fetchAndParseModsJson() with
+    | Some mods ->
+        let modList = mods.ToObject<Mod list>()
+        printfn "Dependencies for %s:" modName
+        visualizeDependencies modList modName 0
+    | None -> printfn "No mods available. Please check the mods JSON file and try again."
+
+let checkForModConflicts (modList: Mod list) =
+    // Add logic to define what constitutes a conflict between mods.
+    // For now, we’ll just print a placeholder.
+    printfn "Checking for mod conflicts..."
+    // Example: Check if mods that depend on conflicting libraries are installed.
+    // You could add logic to check dependencies against each other.
+    printfn "Conflict check complete."
+
+let mutable modProfiles: ModProfile list = []
+
+let createModProfile profileName mods =
+    let profile = { Name = profileName; ActiveMods = mods }
+    modProfiles <- profile :: modProfiles
+    printfn "Profile '%s' created." profileName
+
+let listModProfiles () =
+    if modProfiles.Length > 0 then
+        printfn "Available Profiles:"
+        modProfiles |> List.iter (fun profile -> 
+            printfn "- %s" profile.Name
+            profile.ActiveMods |> List.iter (fun modName -> printfn "  - %s" modName))
+    else
+        printfn "No profiles available."
+
+let loadModProfile profileName =
+    match modProfiles |> List.tryFind (fun p -> p.Name = profileName) with
+    | Some profile ->
+        printfn "Loaded profile '%s' with mods:" profile.Name
+        profile.ActiveMods |> List.iter (printfn "- %s")
+    | None -> printfn "Profile '%s' not found." profileName
+
 let mutable modDirectory = Directory.GetCurrentDirectory()
 
 let setModDirectory directory =
@@ -120,16 +172,21 @@ let setModDirectory directory =
     printfn "Mod directory set to: %s" directory
 
 let printUsage () =
-    printfn "ROM Manager CLI v1.2.0-build7832"
+    printfn "ROM Manager CLI v1.3.0 Build2863"
     printfn "Usage:"
-    printfn "  list installed    - List installed mods"
-    printfn "  list available    - List available mods"
-    printfn "  install <modname> - Install a specific mod (case sensitive)"
-    printfn "  uninstall <filename> - Uninstall a specific mod (by its filename)"
-    printfn "  setdir <path>     - Set the mod installation directory"
-    printfn "  search <keyword>  - Search for mods by keyword"
-    printfn "  usage             - Display this help message"
-    printfn "  exit              - Exit the ROM Manager"
+    printfn "  list installed            - List installed mods"
+    printfn "  list available            - List available mods"
+    printfn "  install <modname>         - Install a specific mod (case sensitive)"
+    printfn "  uninstall <filename>      - Uninstall a specific mod (by its filename)"
+    printfn "  setdir <path>             - Set the mod installation directory"
+    printfn "  search <keyword>          - Search for mods by keyword"
+    printfn "  list dependencies <modname> - Visualize mod dependencies"
+    printfn "  check conflicts           - Check for mod conflicts"
+    printfn "  create profile <name> <mod1> <mod2>... - Create a mod profile"
+    printfn "  list profiles             - List all mod profiles"
+    printfn "  load profile <name>       - Load a specific profile"
+    printfn "  usage                     - Display this help message"
+    printfn "  exit                      - Exit the ROM Manager"
 
 let rec mainLoop () =
     printf "MODMAN> "
@@ -147,23 +204,40 @@ let rec mainLoop () =
     | [| "uninstall"; modName |] ->
         uninstallMod modName modDirectory
         mainLoop()
-    | [| "setdir"; path |] ->
+    | [| "setdir"; path |] -> 
         setModDirectory path
         mainLoop()
     | [| "search"; keyword |] ->
         searchMods keyword
         mainLoop()
+    | [| "list"; "dependencies"; modName |] ->
+        listModDependencies modName
+        mainLoop()
+    | [| "check"; "conflicts" |] ->
+        match fetchAndParseModsJson() with
+        | Some mods -> checkForModConflicts (mods.ToObject<Mod list>())
+        | None -> printfn "No mods available."
+        mainLoop()
+    | [| "create"; "profile"; profileName |] ->
+        let mods = input.[3..] |> List.ofArray
+        createModProfile profileName mods
+        mainLoop()
+    | [| "list"; "profiles" |] ->
+        listModProfiles()
+        mainLoop()
+    | [| "load"; "profile"; profileName |] ->
+        loadModProfile profileName
+        mainLoop()
     | [| "usage" |] ->
         printUsage()
         mainLoop()
-    | [| "exit" |] ->
-        printfn "Exiting ROM Manager..."
+    | [| "exit" |] -> printfn "Exiting ROM Manager..."
     | _ ->
-        printfn "Invalid command. Did you mean something else?"
+        printfn "Unknown command. Type 'usage' for help."
         mainLoop()
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     printUsage()
     mainLoop()
     0
