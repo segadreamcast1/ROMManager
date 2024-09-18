@@ -16,11 +16,11 @@ With a focus on flexibility and broad compatibility, ***ROM Mod Manager*** suppo
 - **Search for Mods**: Quickly search and discover new mods, either locally or from supported online repositories.
 - **Set Custom Mod Directory**: Configure your mod installation paths to fit your organizational preferences.
 - **Universal Unity Game Support**: Broad support for any Unity-based game.
-
-### Upcoming Features:
-- **Mod Dependency Management**: Automatically handle mod dependencies, ensuring mods work correctly without manual configuration.
+- **Mod Dependency Management**: Handle mod dependencies, ensuring mods work correctly without manual configuration.
 - **Mod Conflict Detection**: Warn users of potential conflicts between mods and offer resolutions to ensure a smooth gaming experience.
 - **Mod Profiles**: Create, save, and load multiple mod profiles for different setups or playstyles, making it easy to switch between different mod configurations.
+
+### Upcoming Features:
 - **Save Game Backup**: Automatically back up save games before mod installations to avoid data loss.
 - **Offline Mod Installation**: Download mods ahead of time for offline installation, perfect for limited or unstable internet connections.
 - **Cross-Platform Compatibility**: Whether you're on Windows, macOS, or Linux, ***ROM Mod Manager*** will be able to work across platforms without issues.
