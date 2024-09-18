@@ -26,8 +26,7 @@ With a focus on flexibility and broad compatibility, ***ROM Mod Manager*** suppo
 - **Cross-Platform Compatibility**: Whether you're on Windows, macOS, or Linux, ***ROM Mod Manager*** will be able to work across platforms without issues.
 - **Automated Mod Conflict Resolution**: An advanced system for automatically resolving mod conflicts during installation.
 - **Performance Testing**: Benchmark game performance with and without mods to help identify which mods may be causing slowdowns.
-
-  <sub>(This probably isn't gonna happen.)</sub>
+  <sub>(This probably won't happen.)</sub>
   
 - **Web-Based Integration**: A web-based GUI that works alongside the CLI for remote mod management from any browser.
 - **Automatic Mod Directory Detection with Config**: This works alongside the universal Unity support and automatically configures the settings and sets the directory so users don't have to manually change the directory and config.
