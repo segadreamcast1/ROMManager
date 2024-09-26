@@ -164,6 +164,7 @@ let loadModProfile profileName =
 
 let mutable modDirectory = Directory.GetCurrentDirectory()
 
+// 📋 TODO: Prompt user to set directory first
 let setModDirectory directory =
     printfn "Setting mod directory to: %s" directory
     if not (Directory.Exists(directory)) then
