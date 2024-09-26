@@ -1,0 +1,1 @@
+this is an empty file that the mod manager should create on its own. if it doesnt do anything, look to where the program is located and make a blank .txt file titled "config"
